@@ -1,0 +1,201 @@
+Learning React :
+
+    1. To create React Project : npx create-react-app <app-name>
+    2. Once done, in terminal make sure you are inside your project directory by cd <app-name>
+    3. Then to start the react app server, do npm-start
+
+1. CODE :
+
+        const App = () =>{
+             return <h1>Hello World!!!</h1> OR
+
+             return React.createElement('h1', {className:'title'}, 'helloWorld'); OR
+
+             return React.createElement('h1', {className:'title'}, React.createElement('div',{className: 'div'},'Yo yo yo')); 
+        }
+
+2. REACT OBJECT :
+                const user = {
+                    name : 'Dhananjay',
+                    lastname : 'Trivedi',
+                    age : 15
+                }
+
+3. REACT METHODS :
+                const getYear = () => {
+                    const newDate = new Date();
+                    return newDate.getDate() + ' ' + newDate.getMonth() + ' ' + newDate.getYear();
+                }
+
+
+
+4. Components :
+
+        # Functional Components
+
+            * Directly write the code
+            * const Header = () => {
+                return
+                <div>The date is {
+                        getYear() + ' and the name is ' + user.name
+                    }
+                </div>
+              }
+
+            * Functional Components dont have state, 'STATELESS'
+
+
+        # Class Based Components
+
+            * Requires code to be written in classes
+            * They have 'state' object to which you can set values like :
+
+                class Header extends Component {
+                    state = {
+                        keywords : 'Hello',
+                        title : 'Yoyo'
+                    }
+                    inputChangeHandler(event) {
+                    console.log(event.target.value)
+                    console.log('hey')
+                }
+
+                render() {...}
+
+            * React re-renders the render() if it detects a change in state. The whole page is not reloaded, only the part of code in render() method.
+
+                EXAMPLE :
+
+                class Header extends Component {
+                state = {
+                keywords : 'Hello'
+                }
+
+                inputChangeHandler(event) {
+                this.setState({
+                keywords: event.target.value
+                })
+                }
+
+                render() {
+                console.log(this.state.keywords)
+                return (
+                <header>
+                <div className="logo"
+                onClick={
+                ()=>{
+                console.log("I was clicked")
+                }
+                }
+                >Logo</div>
+                <input type = "text" onChange={this.inputChangeHandler.bind(this)}/>
+                <div> {this.state.title} </div>
+                <div> {this.state.keywords} </div>
+                </header>
+
+                )
+                }
+                }
+
+              
+
+3. Events and STATES
+
+  * State is already defined in a class based component hence you need not have a protoype / constructor to do so
+
+class Header extends Component {
+
+constructor(props) {
+super(props)
+this.state = {
+keywords : 'Hello'
+}
+}
+
+inputChangeHandler(event) {
+this.setState({
+title : 'YoYo',
+keywords: event.target.value // Updating the state on each event this will render() repeatedly
+})
+}
+
+render() {
+console.log(this.state.keywords)
+return (
+<header>
+<div className="logo"
+onClick={
+()=>{
+console.log("I was clicked")
+}
+}
+>Logo</div>
+<input type = "text" onChange={this.inputChangeHandler.bind(this)}/>
+<div> {this.state.title} </div>
+<div> {this.state.keywords} </div>
+</header>
+)
+}
+}
+
+export default Header;
+
+4. PROPS are used to pass data in-between components, it's like bundle in Android which we use to pass data in between intents.
+
+index.js :
+
+class App extends Component {
+
+state = {
+news : JSON
+}
+
+render() {
+return (
+<div>
+<Header/>
+<NewsList news = {this.state.news} code = "DEEJAY"/>
+</div>
+)
+}
+}
+
+news_list.js :
+
+import React from 'react';
+
+// Creating a functional Component for now
+const NewsList = (props) => {
+
+console.log(props)
+
+return (
+<div>News List</div>
+)
+}
+
+export default NewsList;
+
+5. Showing news list
+
+Creating a functional Component for now
+const NewsList = (props) => {
+
+console.log(props)
+
+const items = props.news.map((news_item) => {
+return (
+<div>
+<h3>{news_item.title}</h3>
+<div>{news_item.feed}</div>
+</div>
+)
+})
+
+return (
+<div>
+{items}
+</div>
+)
+}
+
